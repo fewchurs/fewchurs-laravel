@@ -205,7 +205,8 @@ php artisan fewchurs:warm      # pre-warm the config cache after a deploy
 
 ## Caching
 
-`/config` is cached app-wide for an hour. Feature pages are cached per visitor for 15 seconds,
+`/config` is cached app-wide for 5 minutes (`cache.config_ttl`), so plan changes and the
+"Hide vote counts" switch show up quickly. Feature pages are cached per visitor for 15 seconds,
 because `hasVoted` and `isFollowing` are per visitor and a shared entry would hand one
 visitor's vote state to everyone. A longer-lived stale copy is kept so an unreachable API
 degrades into "showing recent data" instead of an error page.

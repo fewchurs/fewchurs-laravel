@@ -14,25 +14,44 @@ final class ConfigResource
         private readonly Cache $cache,
     ) {}
 
+    /**
+     * Lenient: the board should still render (with the badge) when /config fails.
+     */
     public function get(): BoardConfig
     {
         try {
-            $payload = $this->cache->remember(
-                'config',
-                (int) config('fewchurs.cache.config_ttl', 3600),
-                fn () => $this->client->get('/config', withDevice: false),
-            );
+            return $this->fetch();
         } catch (FewchursException) {
             return new BoardConfig(showBranding: true);
         }
+    }
+
+    /**
+     * Strict: throws instead of falling back, so fewchurs:check and fewchurs:warm
+     * can report a dead URL or a rejected key.
+     *
+     * @throws FewchursException
+     */
+    public function fetch(): BoardConfig
+    {
+        $payload = $this->cache->remember(
+            'config',
+            (int) config('fewchurs.cache.config_ttl', 300),
+            fn () => $this->client->get('/config', withDevice: false),
+        );
 
         return BoardConfig::fromArray($payload);
     }
 
+    /**
+     * Strict, bypassing the cache.
+     *
+     * @throws FewchursException
+     */
     public function fresh(): BoardConfig
     {
         $this->cache->forget('config');
 
-        return $this->get();
+        return $this->fetch();
     }
 }

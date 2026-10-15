@@ -6,7 +6,7 @@ return [
 
     'api_key' => env('FEWCHURS_API_KEY'),
 
-    'base_url' => env('FEWCHURS_BASE_URL', 'https://fewchurs.com/api/v1'),
+    'base_url' => env('FEWCHURS_BASE_URL', 'https://www.fewchurs.shop/api/v1'),
 
     /*
     | Extra boards, each with its own key: Fewchurs::app('docs') and
@@ -63,7 +63,7 @@ return [
 
     'cache' => [
         'store' => null,
-        'config_ttl' => 3600,
+        'config_ttl' => 300,     // plan changes and "Hide vote counts" show up within 5 minutes
         'list_ttl' => 15,
         'stale_ttl' => 86400,
     ],

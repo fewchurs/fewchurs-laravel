@@ -43,7 +43,7 @@ final class CheckCommand extends Command
         }
 
         $this->components->info('Board reachable at '.config('fewchurs.base_url'));
-        $this->components->info('Branding badge: '.($config->showBranding ? 'shown (Free/Starter plan)' : 'hidden (Pro plan)'));
+        $this->components->info('Branding badge: '.($config->showBranding ? 'shown (Free plan)' : 'hidden (Starter or Pro plan)'));
 
         return $this->auditLeaks();
     }

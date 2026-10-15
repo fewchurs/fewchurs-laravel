@@ -44,7 +44,10 @@ final readonly class Feature implements Arrayable
             followerCount: (int) ($data['followerCount'] ?? 0),
             hasVoted: (bool) ($data['hasVoted'] ?? false),
             isFollowing: (bool) ($data['isFollowing'] ?? false),
-            isMine: $deviceId !== null && $authorDeviceId !== null && hash_equals($authorDeviceId, $deviceId),
+            // Prefer the server's answer; raw device ids may stop being sent.
+            isMine: isset($data['isMine'])
+                ? (bool) $data['isMine']
+                : $deviceId !== null && $authorDeviceId !== null && hash_equals($authorDeviceId, $deviceId),
             authorIsSubscriber: (bool) ($data['authorIsSubscriber'] ?? false),
             createdAt: isset($data['createdAt']) ? (string) $data['createdAt'] : null,
             updatedAt: isset($data['updatedAt']) ? (string) $data['updatedAt'] : null,

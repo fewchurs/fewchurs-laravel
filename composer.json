@@ -2,12 +2,12 @@
     "name": "fewchurs/laravel",
     "description": "Drop a Fewchurs feature-request board into any Laravel app.",
     "keywords": ["laravel", "feedback", "feature-requests", "roadmap", "fewchurs"],
-    "homepage": "https://fewchurs.com",
+    "homepage": "https://www.fewchurs.shop",
     "license": "MIT",
     "authors": [
         {
             "name": "Fewchurs",
-            "homepage": "https://fewchurs.com"
+            "homepage": "https://www.fewchurs.shop"
         }
     ],
     "require": {
@@ -38,7 +38,7 @@
     },
     "scripts": {
         "lint": "pint",
-        "analyse": "phpstan analyse",
+        "analyse": "phpstan analyse --memory-limit=1G",
         "test": "pest"
     },
     "config": {

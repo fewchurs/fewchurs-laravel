@@ -32,7 +32,10 @@ final readonly class Comment implements Arrayable
             text: (string) ($data['text'] ?? ''),
             authorName: (string) ($data['authorName'] ?? ''),
             isDeveloper: (bool) ($data['isDeveloper'] ?? false),
-            isMine: $deviceId !== null && $authorDeviceId !== null && hash_equals($authorDeviceId, $deviceId),
+            // Prefer the server's answer; raw device ids may stop being sent.
+            isMine: isset($data['isMine'])
+                ? (bool) $data['isMine']
+                : $deviceId !== null && $authorDeviceId !== null && hash_equals($authorDeviceId, $deviceId),
             createdAt: isset($data['createdAt']) ? (string) $data['createdAt'] : null,
         );
     }

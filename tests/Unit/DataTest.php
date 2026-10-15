@@ -23,6 +23,13 @@ it('turns author device ids into isMine and drops them', function () {
         ->and($comment->toArray())->not->toHaveKey('deviceId');
 });
 
+it('prefers the server isMine over the device id comparison', function () {
+    expect(Feature::fromArray(fewchursFeature(['isMine' => true, 'authorDeviceId' => null]), 'device-a')->isMine)->toBeTrue()
+        ->and(Feature::fromArray(fewchursFeature(['isMine' => false, 'authorDeviceId' => 'device-a']), 'device-a')->isMine)->toBeFalse()
+        ->and(Comment::fromArray(['id' => 'c', 'text' => 'hi', 'isMine' => true], 'device-a')->isMine)->toBeTrue()
+        ->and(Comment::fromArray(['id' => 'c', 'text' => 'hi', 'isMine' => false, 'deviceId' => 'device-a'], 'device-a')->isMine)->toBeFalse();
+});
+
 it('rejects theme values that are not plain colours or lengths', function () {
     expect(Theme::styles(['primary' => 'red; background: url(//evil)']))->toContain('--fewchurs-primary: #ED5F18')
         ->and(Theme::styles(['primary' => '#0F766E', 'radius' => '4px']))

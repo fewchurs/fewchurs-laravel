@@ -47,7 +47,7 @@ jobs:
           coverage: none
       - run: composer install --no-interaction --no-progress
       - run: vendor/bin/pint --test
-      - run: vendor/bin/phpstan analyse
+      - run: vendor/bin/phpstan analyse --memory-limit=1G
 
   secrets:
     runs-on: ubuntu-latest
