@@ -29,6 +29,11 @@ return [
     'following' => "You'll get an email when this changes.",
     'unfollowed' => 'Updates turned off.',
 
+    'sheet' => [
+        'open' => 'Feedback',
+        'close' => 'Close',
+    ],
+
     'tabs' => [
         'top' => 'Top',
         'new' => 'New',

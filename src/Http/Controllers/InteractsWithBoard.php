@@ -61,6 +61,7 @@ trait InteractsWithBoard
         $params = array_filter([
             'tab' => $request->input('tab'),
             'board' => $request->input('board'),
+            'embed' => $request->boolean('embed') ? '1' : null,
         ] + $query, fn ($value) => is_string($value) && $value !== '');
 
         $url = route((string) config('fewchurs.route.name', 'fewchurs.').'index', $params);

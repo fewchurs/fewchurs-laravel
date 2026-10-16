@@ -22,6 +22,7 @@ final class Board extends Component
         public ?string $tab = null,
         public ?int $limit = null,
         public ?array $theme = null,
+        public bool $embed = false,
     ) {}
 
     public function render(): View
@@ -48,6 +49,7 @@ final class Board extends Component
             'comments' => $this->comments($board, $openFeature),
             'styles' => Theme::styles($this->theme),
             'routeName' => (string) config('fewchurs.route.name', 'fewchurs.'),
+            'embed' => $this->embed,
         ]);
     }
 

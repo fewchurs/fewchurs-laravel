@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 — 2026-10-16
+
+- New `<x-fewchurs::sheet />`: a floating button that slides the board in from the right, left or bottom. `side`, `label`, `app`, `tab` and `:trigger="false"` with `data-fewchurs-open` for your own button.
+- The board loads in the sheet only when it first opens, and falls back to a link to `/feedback` without JavaScript.
+- `/feedback?embed=1` serves the bare board for the sheet, framed only by your own site.
+
 ## 1.1.0 — 2026-10-16
 
 - Supports Laravel 10, 11, 12 and 13 (was 11 and 12 only).

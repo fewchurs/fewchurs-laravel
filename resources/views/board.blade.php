@@ -2,7 +2,8 @@
     $theme = in_array(config('fewchurs.theme.dark_mode'), ['light', 'dark'], true)
         ? config('fewchurs.theme.dark_mode')
         : null;
-    $boardQuery = $board === \Fewchurs\Laravel\Fewchurs::DEFAULT_APP ? [] : ['board' => $board];
+    $boardQuery = ($board === \Fewchurs\Laravel\Fewchurs::DEFAULT_APP ? [] : ['board' => $board])
+        + ($embed ? ['embed' => 1] : []);
     $showCounts = config('fewchurs.board.show_vote_counts', true) && ! $config->hideVoteCounts;
 @endphp
 

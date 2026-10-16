@@ -5,21 +5,35 @@ declare(strict_types=1);
 namespace Fewchurs\Laravel\Http\Controllers;
 
 use Fewchurs\Laravel\Exceptions\FewchursException;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 final class BoardController
 {
     use InteractsWithBoard;
 
-    /** Data loading lives in the Board component so the page and the tag stay identical. */
-    public function index(Request $request): View
+    /**
+     * Data loading lives in the Board component so the page and the tag stay identical.
+     * `?embed=1` is the bare page the sheet frames; only this site may frame it.
+     */
+    public function index(Request $request): Response
     {
-        return view('fewchurs::page', [
+        $embed = $request->boolean('embed');
+
+        $response = response()->view('fewchurs::page', [
             'board' => $this->board($request)->name,
             'tab' => $this->tab($request),
+            'embed' => $embed,
         ]);
+
+        if ($embed) {
+            $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+            $response->headers->set('Content-Security-Policy', "frame-ancestors 'self'");
+            $response->headers->set('X-Robots-Tag', 'noindex');
+        }
+
+        return $response;
     }
 
     public function features(Request $request): JsonResponse

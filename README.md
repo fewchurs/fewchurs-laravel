@@ -26,6 +26,7 @@ API key never reaches the browser.
 | | |
 |---|---|
 | `<x-fewchurs::board />` | The board, anywhere in your own layout. |
+| `<x-fewchurs::sheet />` | A floating button that slides the board in from the side or bottom. |
 | `/feedback` | A ready-made page, rendered inside your app's layout. |
 | `<livewire:fewchurs-board />` | The same board, reactive, if you use Livewire. |
 | `Fewchurs::features()` | The PHP client, for a UI you build yourself. |
@@ -36,6 +37,38 @@ API key never reaches the browser.
 PHP 8.2+, Laravel 10, 11, 12 or 13. No dependencies beyond Laravel and Guzzle (which Laravel
 already ships with), and no build step —
 the board ships its own scoped CSS, so it does not assume Tailwind.
+
+## As a sheet
+
+Put the board behind a floating button instead of on the page. Add it once, for example to
+your main layout, and it shows on every page:
+
+```blade
+<x-fewchurs::sheet />                    {{-- slides in from the right --}}
+<x-fewchurs::sheet side="left" />
+<x-fewchurs::sheet side="bottom" />
+```
+
+```blade
+<x-fewchurs::sheet label="Suggest a feature" />
+<x-fewchurs::sheet>💡 Ideas?</x-fewchurs::sheet>
+```
+
+Use your own button instead of the floating one: hide it with `:trigger="false"` and add
+`data-fewchurs-open` to any element.
+
+```blade
+<x-fewchurs::sheet :trigger="false" />
+
+<button data-fewchurs-open>Feedback</button>
+```
+
+The sheet loads the board from `/feedback?embed=1` in a frame, and only the first time it opens,
+so pages where nobody opens it make no API calls. It needs the `/feedback` route (so
+`route.prefix` must not be `null`), takes `app` and `tab` like the board, and uses the colours
+from `config('fewchurs.theme')`. Without JavaScript the button is a link to the full page.
+On phones it fills the screen. If your app sends `X-Frame-Options: DENY` or a CSP
+`frame-ancestors 'none'`, allow your own site to frame `/feedback`.
 
 ## Using the client
 
