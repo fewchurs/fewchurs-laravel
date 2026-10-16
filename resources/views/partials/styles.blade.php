@@ -45,11 +45,9 @@
 .fewchurs__input:focus-visible, .fewchurs__link:focus-visible {
     outline: 2px solid var(--fc-primary); outline-offset: 2px;
 }
-.fewchurs__list { display: flex; flex-direction: column; gap: 0.75rem; list-style: none; padding: 0; margin: 0; }
-.fewchurs__card {
-    display: flex; gap: 0.875rem; padding: 1rem;
-    background: var(--fc-surface); border: 1px solid var(--fc-border); border-radius: var(--fc-radius);
-}
+.fewchurs__list { display: flex; flex-direction: column; list-style: none; padding: 0; margin: 0; }
+.fewchurs__card { display: flex; gap: 0.875rem; padding: 1rem 0; }
+.fewchurs__card + .fewchurs__card { border-top: 1px solid var(--fc-border); }
 .fewchurs__vote {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     min-width: 3rem; padding: 0.4rem 0.5rem; gap: 0.1rem; cursor: pointer;

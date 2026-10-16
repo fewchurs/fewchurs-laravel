@@ -23,10 +23,8 @@
     background-size: 300% 100%;
     animation: fewchurs-shimmer 1.4s ease-in-out infinite;
 }
-.fewchurs-skeleton__card {
-    display: flex; gap: 0.875rem; padding: 1rem;
-    border: 1px solid var(--sk-base); border-radius: var(--fewchurs-radius, 0.75rem);
-}
+.fewchurs-skeleton__card { display: flex; gap: 0.875rem; padding: 1rem 0; }
+.fewchurs-skeleton__card + .fewchurs-skeleton__card { border-top: 1px solid var(--sk-base); }
 .fewchurs-skeleton__lines { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.2rem; }
 .fewchurs-skeleton__sr {
     position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;

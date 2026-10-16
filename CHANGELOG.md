@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1 — 2026-10-16
+
+- Feature requests are a flat list separated by thin lines instead of boxed cards, and the loading shimmer matches.
+
 ## 1.3.0 — 2026-10-16
 
 - The board no longer breaks the host page when the API fails with no recent copy: it shows a plain message and a "Try again" button inside the board (plain, embedded and Livewire).
