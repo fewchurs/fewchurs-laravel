@@ -213,4 +213,6 @@ degrades into "showing recent data" instead of an error page.
 
 ## License
 
-MIT.
+Proprietary. You may use the package in your own apps to connect them to Fewchurs, and edit
+the config, views and translations you publish. The source is public for transparency, not open
+source. See [LICENSE](LICENSE).

@@ -1,21 +1,41 @@
-MIT License
+Fewchurs SDK License
 
-Copyright (c) Fewchurs
+Copyright (c) 2026 Fewchurs. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This software and its source code (the "SDK") are proprietary to Fewchurs.
+The source code is published for transparency only. It is not open source.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Permitted use. You may install the SDK, unmodified, as a Composer
+   dependency of your own applications, and deploy it as part of those
+   applications, solely to connect them to the Fewchurs service under a
+   valid Fewchurs account. You may publish the SDK's configuration file,
+   views and translations into your application and edit those published
+   copies.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. Restrictions. Except as allowed in section 1, you may not:
+   a. copy, modify, translate or create derivative works of the SDK;
+   b. distribute, sublicense, sell, rent or lease the SDK on its own or as
+      part of a library, SDK, framework or developer tool;
+   c. use the SDK, or any part of it, to build or run a product or service
+      that competes with Fewchurs, or to connect to any service other than
+      Fewchurs;
+   d. remove or alter any copyright or license notice in the SDK.
+
+3. Ownership. Fewchurs keeps all rights, title and interest in the SDK. No
+   rights are granted except those stated in this license.
+
+4. Termination. This license ends automatically if you breach it, or when
+   your Fewchurs account ends. On termination you must stop deploying new
+   versions of your applications that include the SDK.
+
+5. No warranty. THE SDK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+6. Limitation of liability. IN NO EVENT SHALL FEWCHURS BE LIABLE FOR ANY
+   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+   OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SDK OR THE USE
+   OF OR OTHER DEALINGS IN THE SDK.
+
+Your use of the Fewchurs service itself is governed separately by your
+agreement with Fewchurs (https://www.fewchurs.shop).

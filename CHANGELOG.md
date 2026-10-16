@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0 — unreleased
+## 1.0.0 — 2026-10-16
 
 - Server-rendered feature-request board: `<x-fewchurs::board />`, a ready-made `/feedback` route, and a Livewire component.
 - PHP client: `Fewchurs::features()`, `Fewchurs::comments()`, `Fewchurs::config()`.
@@ -12,3 +12,4 @@
 - `fewchurs:check` and `fewchurs:warm` now fail on a rejected key or an unreachable API instead of reporting success.
 - `/config` is cached for 5 minutes, so plan changes and "Hide vote counts" show up quickly.
 - `isMine` comes from the server when it sends one.
+- Released under the proprietary Fewchurs SDK License.
