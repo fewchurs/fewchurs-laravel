@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0 — 2026-10-16
+
+- Upvotes respond the moment you click: the button fills, the count changes and the arrow bounces, then the vote saves in the background. Quick repeat clicks settle on your last choice; a failed save puts the button back and shows the server's message.
+- The Livewire board votes the same way and no longer re-renders the whole board after a vote; `toggleVote()` now returns the saved `hasVoted` and `upvoteCount`.
+- Feature requests sit on a soft background with no border, and the vote button and status labels stand out on it.
+
 ## 1.3.1 — 2026-10-16
 
 - Feature requests are a flat list separated by thin lines instead of boxed cards, and the loading shimmer matches.

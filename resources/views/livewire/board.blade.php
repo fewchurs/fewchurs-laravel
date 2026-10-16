@@ -73,14 +73,47 @@
             @else
                 <ul class="fewchurs__list">
                     @foreach($page->features as $feature)
-                        <li class="fewchurs__card" wire:key="fewchurs-{{ $feature->id }}">
+                        {{-- The key carries the saved vote, so a fresh server value replaces the button's local state. --}}
+                        <li class="fewchurs__card" wire:key="fewchurs-{{ $feature->id }}-{{ (int) $feature->hasVoted }}-{{ $feature->upvoteCount }}">
                             <button class="fewchurs__vote" type="button"
-                                    wire:click="toggleVote('{{ $feature->id }}', {{ $feature->hasVoted ? 'true' : 'false' }})"
+                                    x-data="{
+                                        voted: @js($feature->hasVoted),
+                                        count: @js($feature->upvoteCount),
+                                        saved: { voted: @js($feature->hasVoted), count: @js($feature->upvoteCount) },
+                                        busy: false,
+                                        pop: false,
+                                        toggle() {
+                                            this.voted = ! this.voted;
+                                            this.count = Math.max(0, this.count + (this.voted ? 1 : -1));
+                                            this.pop = this.voted;
+                                            if (! this.busy) this.save();
+                                        },
+                                        save() {
+                                            this.busy = true;
+                                            const want = this.voted;
+                                            this.$wire.toggleVote(@js($feature->id), ! want).then((result) => {
+                                                this.busy = false;
+                                                if (! result) {
+                                                    this.voted = this.saved.voted;
+                                                    this.count = this.saved.count;
+                                                    return;
+                                                }
+                                                this.saved = { voted: result.hasVoted, count: result.upvoteCount };
+                                                if (this.voted !== result.hasVoted) return this.save();
+                                                this.count = result.upvoteCount;
+                                            });
+                                        },
+                                    }"
+                                    x-on:click="toggle()"
+                                    x-on:animationend="pop = false"
+                                    x-bind:class="{ 'fewchurs__vote--pop': pop }"
+                                    x-bind:aria-pressed="voted ? 'true' : 'false'"
+                                    x-bind:aria-label="voted ? @js(__('fewchurs::messages.remove_vote')) : @js(__('fewchurs::messages.vote'))"
                                     aria-pressed="{{ $feature->hasVoted ? 'true' : 'false' }}"
                                     aria-label="{{ $feature->hasVoted ? __('fewchurs::messages.remove_vote') : __('fewchurs::messages.vote') }}">
                                 <span class="fewchurs__vote-arrow" aria-hidden="true">&#9650;</span>
                                 @if($showCounts)
-                                    <span class="fewchurs__vote-count">{{ $feature->upvoteCount }}</span>
+                                    <span class="fewchurs__vote-count" x-text="count">{{ $feature->upvoteCount }}</span>
                                 @endif
                             </button>
 

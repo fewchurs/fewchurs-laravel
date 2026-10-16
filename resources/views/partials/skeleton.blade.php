@@ -8,23 +8,26 @@
 @once
 <style>
 .fewchurs-skeleton {
-    --sk-base: #ececee;
-    --sk-shine: #f7f7f8;
+    --sk-base: #e4e4e7;
+    --sk-shine: #efeff1;
+    --sk-card: #f4f4f5;
     display: flex; flex-direction: column; gap: 0.75rem;
     max-width: 44rem; margin: 0 auto;
 }
 @media (prefers-color-scheme: dark) {
-    .fewchurs-skeleton:not([data-theme="light"]) { --sk-base: #1f1f22; --sk-shine: #2a2a2e; }
+    .fewchurs-skeleton:not([data-theme="light"]) { --sk-base: #232326; --sk-shine: #2e2e33; --sk-card: #161618; }
 }
-.fewchurs-skeleton[data-theme="dark"] { --sk-base: #1f1f22; --sk-shine: #2a2a2e; }
+.fewchurs-skeleton[data-theme="dark"] { --sk-base: #232326; --sk-shine: #2e2e33; --sk-card: #161618; }
 .fewchurs-skeleton__bar {
     border-radius: 0.5rem;
     background: linear-gradient(90deg, var(--sk-base) 25%, var(--sk-shine) 50%, var(--sk-base) 75%);
     background-size: 300% 100%;
     animation: fewchurs-shimmer 1.4s ease-in-out infinite;
 }
-.fewchurs-skeleton__card { display: flex; gap: 0.875rem; padding: 1rem 0; }
-.fewchurs-skeleton__card + .fewchurs-skeleton__card { border-top: 1px solid var(--sk-base); }
+.fewchurs-skeleton__card {
+    display: flex; gap: 0.875rem; padding: 1rem;
+    background: var(--sk-card); border-radius: var(--fewchurs-radius, 0.75rem);
+}
 .fewchurs-skeleton__lines { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.2rem; }
 .fewchurs-skeleton__sr {
     position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;

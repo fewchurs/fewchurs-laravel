@@ -57,17 +57,29 @@ class FewchursBoard extends Component
         $this->openFeature = $this->openFeature === $featureId ? null : Ids::assert($featureId);
     }
 
-    public function toggleVote(string $featureId, bool $hasVoted): void
+    /**
+     * The button has already flipped in the browser, so a successful vote skips the
+     * re-render and hands back the saved state; a failure re-renders with the message.
+     *
+     * @return array{hasVoted: bool, upvoteCount: int}|null
+     */
+    public function toggleVote(string $featureId, bool $hasVoted): ?array
     {
         $this->guardWrites();
 
         try {
-            $hasVoted
+            $result = $hasVoted
                 ? $this->app()->features()->unvote($featureId)
                 : $this->app()->features()->vote($featureId);
         } catch (FewchursException $e) {
             $this->addError('board', $e->userMessage());
+
+            return null;
         }
+
+        $this->skipRender();
+
+        return ['hasVoted' => $result->hasVoted, 'upvoteCount' => $result->upvoteCount];
     }
 
     public function submit(): void

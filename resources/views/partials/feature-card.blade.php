@@ -9,14 +9,18 @@
 @endphp
 
 <li class="fewchurs__card" id="fewchurs-feature-{{ $feature->id }}">
-    <form method="POST" action="{{ $voteRoute }}" data-fewchurs-vote>
+    <form method="POST" action="{{ $voteRoute }}" data-fewchurs-vote
+          data-vote-url="{{ route($routeName.'vote', ['feature' => $feature->id]) }}"
+          data-unvote-url="{{ route($routeName.'unvote', ['feature' => $feature->id]) }}">
         @csrf
         @if($feature->hasVoted)
             @method('DELETE')
         @endif
         @include('fewchurs::partials.board-input')
         <button class="fewchurs__vote" type="submit" aria-pressed="{{ $feature->hasVoted ? 'true' : 'false' }}"
-                aria-label="{{ $feature->hasVoted ? __('fewchurs::messages.remove_vote') : __('fewchurs::messages.vote') }}">
+                aria-label="{{ $feature->hasVoted ? __('fewchurs::messages.remove_vote') : __('fewchurs::messages.vote') }}"
+                data-label-vote="{{ __('fewchurs::messages.vote') }}"
+                data-label-remove="{{ __('fewchurs::messages.remove_vote') }}">
             <span class="fewchurs__vote-arrow" aria-hidden="true">&#9650;</span>
             @if($showCounts)
                 <span class="fewchurs__vote-count" data-fewchurs-count>{{ $feature->upvoteCount }}</span>
