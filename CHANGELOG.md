@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 — 2026-10-16
+
+- Supports Laravel 10, 11, 12 and 13 (was 11 and 12 only).
+- Requires `guzzlehttp/guzzle` (7 or 8) directly, since Laravel 10 does not install it for you.
+- CI now tests every supported Laravel and PHP pair.
+
 ## 1.0.0 — 2026-10-16
 
 - Server-rendered feature-request board: `<x-fewchurs::board />`, a ready-made `/feedback` route, and a Livewire component.

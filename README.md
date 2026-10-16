@@ -33,7 +33,8 @@ API key never reaches the browser.
 
 ## Requirements
 
-PHP 8.2+, Laravel 11 or 12. No dependencies beyond Laravel itself, and no build step —
+PHP 8.2+, Laravel 10, 11, 12 or 13. No dependencies beyond Laravel and Guzzle (which Laravel
+already ships with), and no build step —
 the board ships its own scoped CSS, so it does not assume Tailwind.
 
 ## Using the client
