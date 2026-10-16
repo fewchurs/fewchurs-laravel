@@ -100,6 +100,13 @@
 .fewchurs__pagination { display: flex; justify-content: center; margin-top: 1.25rem; }
 .fewchurs__branding { margin-top: 1.5rem; text-align: center; font-size: 0.78rem; color: var(--fc-subtle); }
 .fewchurs__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.fewchurs__failed {
+    display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+    padding: 2.5rem 1rem; text-align: center;
+    border: 1px dashed var(--fc-border); border-radius: var(--fc-radius);
+}
+.fewchurs__failed-title { margin: 0; font-weight: 600; }
+.fewchurs__failed-text { margin: 0 0 0.75rem; color: var(--fc-subtle); font-size: 0.9rem; }
 .fewchurs__stale { font-size: 0.78rem; color: var(--fc-subtle); margin-bottom: 0.75rem; }
 </style>
 @endonce

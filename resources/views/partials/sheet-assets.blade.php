@@ -73,7 +73,26 @@ html:has(.fewchurs-sheet__panel[open]) { overflow: hidden; }
     background: transparent; color: var(--fcs-subtle); font-size: 1.5rem; line-height: 1;
 }
 .fewchurs-sheet__close:hover { color: var(--fcs-text); }
-.fewchurs-sheet__frame { flex: 1; width: 100%; border: 0; background: var(--fcs-bg); }
+.fewchurs-sheet__body { position: relative; flex: 1; min-height: 0; }
+.fewchurs-sheet__frame { display: block; width: 100%; height: 100%; border: 0; background: var(--fcs-bg); }
+.fewchurs-sheet__loading, .fewchurs-sheet__failed {
+    position: absolute; inset: 0; display: none; background: var(--fcs-bg);
+}
+.fewchurs-sheet__loading { padding: 1.25rem; overflow: hidden; }
+.fewchurs-sheet__body[data-state="loading"] .fewchurs-sheet__loading { display: block; }
+.fewchurs-sheet__body[data-state="failed"] .fewchurs-sheet__failed {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem;
+    padding: 2rem; text-align: center; font: 15px/1.5 ui-sans-serif, system-ui, sans-serif;
+}
+.fewchurs-sheet__failed-text { margin: 0; font-weight: 600; }
+.fewchurs-sheet__btn {
+    padding: 0.55rem 1rem; border: 0; border-radius: 0.55rem; cursor: pointer;
+    background: var(--fcs-primary); color: #ffffff; font: 600 15px/1.2 ui-sans-serif, system-ui, sans-serif;
+}
+.fewchurs-sheet__link { color: var(--fcs-subtle); font-size: 0.9rem; }
+.fewchurs-sheet__btn:focus-visible, .fewchurs-sheet__link:focus-visible {
+    outline: 2px solid var(--fcs-primary); outline-offset: 2px;
+}
 </style>
 <script>
 (function () {
@@ -81,10 +100,39 @@ html:has(.fewchurs-sheet__panel[open]) { overflow: hidden; }
         return trigger.closest('[data-fewchurs-sheet]') || document.querySelector('[data-fewchurs-sheet]');
     }
 
+    function setState(frame, state) {
+        frame.parentNode.setAttribute('data-state', state);
+    }
+
+    // Each page the frame loads is checked: the board marks itself, so anything else
+    // (an error page, a 404, a login redirect) shows the sheet's own message instead.
+    function watch(frame) {
+        frame.addEventListener('load', function () {
+            var doc = null;
+            try { doc = frame.contentDocument; } catch (e) {}
+            if (doc && doc.location.href === 'about:blank') return;
+
+            var ok = !!(doc && doc.querySelector('[data-fewchurs-board]'));
+            setState(frame, ok ? 'ready' : 'failed');
+
+            // Leaving the page (a tab, "load more", a form post) shows the shimmer again
+            // as soon as the request starts, not once the next page arrives.
+            if (ok) frame.contentWindow.addEventListener('beforeunload', function () { setState(frame, 'loading'); });
+        });
+    }
+
+    function load(frame) {
+        setState(frame, 'loading');
+        frame.setAttribute('src', frame.getAttribute('data-src'));
+    }
+
     function open(sheet) {
         var dialog = sheet.querySelector('dialog');
         var frame = dialog.querySelector('iframe');
-        if (!frame.getAttribute('src')) frame.setAttribute('src', frame.getAttribute('data-src'));
+        if (!frame.getAttribute('src')) {
+            watch(frame);
+            load(frame);
+        }
         if (!dialog.open) dialog.showModal();
     }
 
@@ -96,6 +144,12 @@ html:has(.fewchurs-sheet__panel[open]) { overflow: hidden; }
             if (!sheet || typeof sheet.querySelector('dialog').showModal !== 'function') return;
             event.preventDefault();
             open(sheet);
+            return;
+        }
+
+        var retry = event.target.closest('[data-fewchurs-sheet-retry]');
+        if (retry) {
+            load(retry.closest('dialog').querySelector('iframe'));
             return;
         }
 

@@ -129,18 +129,33 @@ class FewchursBoard extends Component
     {
         $app = $this->app();
 
-        return view('fewchurs::livewire.board', [
-            'page' => $app->features()->list(
+        try {
+            $page = $app->features()->list(
                 sort: $this->tab === 'new' ? 'new' : 'top',
                 limit: (int) config('fewchurs.board.per_page', 20),
                 cursor: $this->cursor,
-            ),
+            );
+            $error = null;
+        } catch (FewchursException $e) {
+            $page = null;
+            $error = $e->userMessage();
+        }
+
+        return view('fewchurs::livewire.board', [
+            'page' => $page,
+            'error' => $error,
             'config' => $app->config(),
-            'comments' => $this->comments($app),
+            'comments' => $error === null ? $this->comments($app) : null,
             'tabs' => $this->tabs(),
             'styles' => Theme::styles(),
             'showCounts' => config('fewchurs.board.show_vote_counts', true) && ! $app->config()->hideVoteCounts,
         ]);
+    }
+
+    /** Shown by `<livewire:fewchurs-board lazy />` until the board has loaded. */
+    public function placeholder(): View
+    {
+        return view('fewchurs::livewire.placeholder');
     }
 
     private function comments(mixed $app): ?CommentPage

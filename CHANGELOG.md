@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0 — 2026-10-16
+
+- The board no longer breaks the host page when the API fails with no recent copy: it shows a plain message and a "Try again" button inside the board (plain, embedded and Livewire).
+- The sheet shows a shimmer shaped like the board while it loads, and again while moving between tabs or pages inside it.
+- If the page inside the sheet fails, the sheet shows its own message with "Try again" and a link to the full page.
+- `<livewire:fewchurs-board lazy />` shows the shimmer until it loads, and the Livewire board shimmers while switching tabs.
+
 ## 1.2.0 — 2026-10-16
 
 - New `<x-fewchurs::sheet />`: a floating button that slides the board in from the right, left or bottom. `side`, `label`, `app`, `tab` and `:trigger="false"` with `data-fewchurs-open` for your own button.

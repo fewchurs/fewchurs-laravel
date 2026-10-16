@@ -20,7 +20,23 @@
             <button class="fewchurs-sheet__close" type="button" data-fewchurs-sheet-close
                     aria-label="{{ __('fewchurs::messages.sheet.close') }}">&times;</button>
         </div>
-        <iframe class="fewchurs-sheet__frame" data-src="{{ $embedUrl }}"
-                title="{{ __('fewchurs::messages.page_title') }}"></iframe>
+        <div class="fewchurs-sheet__body" data-state="loading">
+            <div class="fewchurs-sheet__loading">
+                @include('fewchurs::partials.skeleton')
+            </div>
+
+            <div class="fewchurs-sheet__failed" role="alert">
+                <p class="fewchurs-sheet__failed-text">{{ __('fewchurs::messages.sheet.failed') }}</p>
+                <button class="fewchurs-sheet__btn" type="button" data-fewchurs-sheet-retry>
+                    {{ __('fewchurs::messages.retry') }}
+                </button>
+                <a class="fewchurs-sheet__link" href="{{ $pageUrl }}" target="_blank" rel="noopener">
+                    {{ __('fewchurs::messages.sheet.open_page') }}
+                </a>
+            </div>
+
+            <iframe class="fewchurs-sheet__frame" data-src="{{ $embedUrl }}"
+                    title="{{ __('fewchurs::messages.page_title') }}"></iframe>
+        </div>
     </dialog>
 </div>

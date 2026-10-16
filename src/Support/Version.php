@@ -8,7 +8,7 @@ use Illuminate\Foundation\Application;
 
 final class Version
 {
-    public const SDK = '1.2.0';
+    public const SDK = '1.3.0';
 
     public static function userAgent(): string
     {

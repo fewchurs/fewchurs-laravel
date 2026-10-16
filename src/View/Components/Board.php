@@ -33,11 +33,18 @@ final class Board extends Component
         $cursor = request()->query('cursor');
         $openFeature = request()->query('feature');
 
-        $page = $board->features()->list(
-            sort: $tab === 'new' ? 'new' : 'top',
-            limit: $this->limit ?? (int) config('fewchurs.board.per_page', 20),
-            cursor: is_string($cursor) && Ids::isValid($cursor) ? $cursor : null,
-        );
+        // A failure renders inside the board instead of taking the host page down with it.
+        try {
+            $page = $board->features()->list(
+                sort: $tab === 'new' ? 'new' : 'top',
+                limit: $this->limit ?? (int) config('fewchurs.board.per_page', 20),
+                cursor: is_string($cursor) && Ids::isValid($cursor) ? $cursor : null,
+            );
+            $error = null;
+        } catch (FewchursException $e) {
+            $page = null;
+            $error = $e->userMessage();
+        }
 
         return view('fewchurs::board', [
             'board' => $board->name,
@@ -46,7 +53,8 @@ final class Board extends Component
             'tabs' => $tabs,
             'config' => $board->config(),
             'openFeature' => is_string($openFeature) && Ids::isValid($openFeature) ? $openFeature : null,
-            'comments' => $this->comments($board, $openFeature),
+            'comments' => $error === null ? $this->comments($board, $openFeature) : null,
+            'error' => $error,
             'styles' => Theme::styles($this->theme),
             'routeName' => (string) config('fewchurs.route.name', 'fewchurs.'),
             'embed' => $this->embed,

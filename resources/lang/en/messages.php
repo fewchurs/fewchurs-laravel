@@ -8,6 +8,9 @@ return [
     'sort' => 'Sort requests',
     'empty' => 'No requests yet. Be the first to ask for something.',
     'stale' => 'Showing recent data.',
+    'loading' => 'Loading feature requests…',
+    'load_failed' => "Feature requests couldn't be loaded.",
+    'retry' => 'Try again',
     'load_more' => 'Load more',
     'comments' => '{0} No comments|{1} 1 comment|[2,*] :count comments',
     'no_comments' => 'No comments yet.',
@@ -32,6 +35,8 @@ return [
     'sheet' => [
         'open' => 'Feedback',
         'close' => 'Close',
+        'failed' => "Feedback couldn't be loaded right now.",
+        'open_page' => 'Open in a new page',
     ],
 
     'tabs' => [

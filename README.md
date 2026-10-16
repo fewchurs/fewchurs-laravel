@@ -67,8 +67,24 @@ The sheet loads the board from `/feedback?embed=1` in a frame, and only the firs
 so pages where nobody opens it make no API calls. It needs the `/feedback` route (so
 `route.prefix` must not be `null`), takes `app` and `tab` like the board, and uses the colours
 from `config('fewchurs.theme')`. Without JavaScript the button is a link to the full page.
-On phones it fills the screen. If your app sends `X-Frame-Options: DENY` or a CSP
+On phones it fills the screen. While the board loads, the sheet shows a
+shimmer shaped like the board, and if the page inside fails it shows a message with
+"Try again" and a link to the full page. If your app sends `X-Frame-Options: DENY` or a CSP
 `frame-ancestors 'none'`, allow your own site to frame `/feedback`.
+
+## Loading and errors
+
+When the API can't be reached (or rejects the key) and there is no recent copy to show, the
+board shows a plain message with a "Try again" button **inside the board**, and the rest of your
+page keeps working. The messages come from the `errors` group in the lang file, so you can
+reword or translate them; the failure itself is still logged.
+
+The plain board arrives with your page, already loaded, so it has no loading state. For a
+shimmer, use the sheet, or Livewire with `lazy`, which also shimmers while switching tabs:
+
+```blade
+<livewire:fewchurs-board lazy />
+```
 
 ## Using the client
 
