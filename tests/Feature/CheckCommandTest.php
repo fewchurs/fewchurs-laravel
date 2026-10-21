@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Http;
 it('defaults to the live api', function () {
     $config = require __DIR__.'/../../config/fewchurs.php';
 
-    expect($config['base_url'])->toBe(env('FEWCHURS_BASE_URL', 'https://www.fewchurs.shop/api/v1'))
+    expect($config['base_url'])->toBe(env('FEWCHURS_BASE_URL', 'https://www.fewchurs.com/api/v1'))
         ->and(file_get_contents(__DIR__.'/../../config/fewchurs.php'))
-        ->toContain("env('FEWCHURS_BASE_URL', 'https://www.fewchurs.shop/api/v1')");
+        ->toContain("env('FEWCHURS_BASE_URL', 'https://www.fewchurs.com/api/v1')");
 });
 
 it('reports a reachable board and the plan from the branding flag', function (bool $showBranding, string $line) {

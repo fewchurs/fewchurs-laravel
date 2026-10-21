@@ -6,7 +6,7 @@ return [
 
     'api_key' => env('FEWCHURS_API_KEY'),
 
-    'base_url' => env('FEWCHURS_BASE_URL', 'https://www.fewchurs.shop/api/v1'),
+    'base_url' => env('FEWCHURS_BASE_URL', 'https://www.fewchurs.com/api/v1'),
 
     /*
     | Extra boards, each with its own key: Fewchurs::app('docs') and

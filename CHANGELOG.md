@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1 — 2026-10-21
+
+- Moves to the new domain: the API defaults to `https://www.fewchurs.com/api/v1`, and the "Powered by Fewchurs" link, homepages and license point to `https://www.fewchurs.com`.
+
 ## 1.4.0 — 2026-10-16
 
 - Upvotes respond the moment you click: the button fills, the count changes and the arrow bounces, then the vote saves in the background. Quick repeat clicks settle on your last choice; a failed save puts the button back and shows the server's message.

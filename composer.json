@@ -2,12 +2,12 @@
     "name": "fewchurs/laravel",
     "description": "Drop a Fewchurs feature-request board into any Laravel app.",
     "keywords": ["laravel", "feedback", "feature-requests", "roadmap", "fewchurs"],
-    "homepage": "https://www.fewchurs.shop",
+    "homepage": "https://www.fewchurs.com",
     "license": "proprietary",
     "authors": [
         {
             "name": "Fewchurs",
-            "homepage": "https://www.fewchurs.shop"
+            "homepage": "https://www.fewchurs.com"
         }
     ],
     "require": {
