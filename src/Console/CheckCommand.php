@@ -32,8 +32,10 @@ final class CheckCommand extends Command
 
         try {
             $config = Fewchurs::app($board)->configResource()->fresh();
-        } catch (InvalidApiKeyException) {
-            $this->components->error('API key rejected — check the key for this app in your Fewchurs dashboard.');
+        } catch (InvalidApiKeyException $e) {
+            $this->components->error($e->errorCode === 'wrong_app'
+                ? $e->getMessage()
+                : 'API key rejected — check the key for this app in your Fewchurs dashboard.');
 
             return self::FAILURE;
         } catch (FewchursException $e) {

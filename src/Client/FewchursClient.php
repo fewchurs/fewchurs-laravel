@@ -29,6 +29,7 @@ final class FewchursClient
     public function __construct(
         private readonly string $apiKey,
         private readonly string $baseUrl,
+        private readonly string $appId,
         private readonly array $http,
         private readonly DeviceIdResolver $identity,
     ) {
@@ -143,15 +144,19 @@ final class FewchursClient
 
     private function report(FewchursException $exception): FewchursException
     {
-        $context = Redactor::scrubContext([
+        $context = [
             'code' => $exception->errorCode,
             'status' => $exception->status,
             'endpoint' => $exception->endpoint,
             'device' => substr($this->deviceIdOverride ?? '', 0, 12),
-        ]);
+        ];
+
+        if ($exception->errorCode === 'wrong_app') {
+            $context['message'] = $exception->getMessage();
+        }
 
         Log::channel(config('fewchurs.logging.channel') ?: config('logging.default'))
-            ->log($exception->isCritical() ? 'critical' : 'warning', 'Fewchurs request failed', $context);
+            ->log($exception->isCritical() ? 'critical' : 'warning', 'Fewchurs request failed', Redactor::scrubContext($context));
 
         Event::dispatch(new RequestFailed($exception));
 
@@ -168,6 +173,10 @@ final class FewchursClient
             'X-Fewchurs-Sdk' => Version::userAgent(),
             'Accept-Language' => app()->getLocale(),
         ];
+
+        if ($this->appId !== '') {
+            $headers['X-Fewchurs-App-Id'] = $this->appId;
+        }
 
         if ($withDevice) {
             $headers['X-Device-Id'] = $this->deviceId();

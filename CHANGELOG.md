@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0 — 2026-11-04
+
+- Sends the app ID so your API key only works in your own apps. Handles `wrong_app`.
+
 ## 1.4.1 — 2026-10-21
 
 - Moves to the new domain: the API defaults to `https://www.fewchurs.com/api/v1`, and the "Powered by Fewchurs" link, homepages and license point to `https://www.fewchurs.com`.

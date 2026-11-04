@@ -92,6 +92,7 @@ final class Fewchurs
         $base = [
             'api_key' => config('fewchurs.api_key'),
             'base_url' => config('fewchurs.base_url'),
+            'app_id' => config('fewchurs.app_id'),
             'http' => config('fewchurs.http', []),
         ];
 

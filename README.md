@@ -19,6 +19,10 @@ FEWCHURS_API_KEY=fr_live_…
 That's it — the board renders, votes and comments work with JavaScript disabled, and your
 API key never reaches the browser.
 
+Add your domain to your app in the Fewchurs dashboard. The API key only works there.
+The package sends the host of `APP_URL` as the app ID. To send a different one, set
+`FEWCHURS_APP_ID`.
+
 ---
 
 ## What you get
@@ -114,6 +118,9 @@ Every call throws a typed exception on failure — `RateLimitedException`, `NotF
 `InvalidApiKeyException`, `ConnectionException` and friends, each with a
 `userMessage()` that is safe to show a visitor.
 
+A key used from an app ID it is not set up for gets a `wrong_app` error from the server. This
+throws `InvalidApiKeyException`, is never retried, and `getMessage()` names the ID to add.
+
 ## Identity
 
 The server needs an `X-Device-Id` per visitor. The package resolves one for you:
@@ -186,6 +193,8 @@ Laravel lang files, so `lang/vendor/fewchurs/fr/messages.php` just works.
 ```php
 'apps' => ['docs' => ['api_key' => env('FEWCHURS_DOCS_KEY')]],
 ```
+
+A board sends the main `app_id` unless you give it its own `app_id` in this array.
 
 ```blade
 <x-fewchurs::board app="docs" />

@@ -23,7 +23,7 @@ class FewchursException extends RuntimeException
     public static function fromEnvelope(string $code, string $message, int $status, string $endpoint): self
     {
         $class = match ($code) {
-            'invalid_key' => InvalidApiKeyException::class,
+            'invalid_key', 'wrong_app' => InvalidApiKeyException::class,
             'missing_device_id' => MissingDeviceIdException::class,
             'validation_failed' => ValidationFailedException::class,
             'rate_limited' => RateLimitedException::class,

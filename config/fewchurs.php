@@ -8,6 +8,8 @@ return [
 
     'base_url' => env('FEWCHURS_BASE_URL', 'https://www.fewchurs.com/api/v1'),
 
+    'app_id' => env('FEWCHURS_APP_ID', parse_url((string) config('app.url'), PHP_URL_HOST)),
+
     /*
     | Extra boards, each with its own key: Fewchurs::app('docs') and
     | <x-fewchurs::board app="docs" />.

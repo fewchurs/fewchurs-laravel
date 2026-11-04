@@ -36,6 +36,7 @@ final class FewchursApp
         $this->client = new FewchursClient(
             apiKey: trim((string) ($settings['api_key'] ?? '')),
             baseUrl: (string) ($settings['base_url'] ?? 'https://www.fewchurs.com/api/v1'),
+            appId: trim((string) ($settings['app_id'] ?? '')),
             http: (array) ($settings['http'] ?? []),
             identity: $identity,
         );
