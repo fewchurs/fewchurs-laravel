@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.3 — 2026-11-05
+
+- While you test on localhost with `APP_DEBUG=true`, the board and the sheet show a small note reminding you to add your domain in the Fewchurs dashboard before going live. Visitors never see it.
+
 ## 1.5.2 — 2026-11-05
 
 - A wrong key and a wrong app ID now show their own clear messages on the board and in `fewchurs:check`, with `APP_DEBUG` on or off.

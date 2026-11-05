@@ -14,9 +14,13 @@ use Fewchurs\Laravel\Identity\DeviceIdResolver;
 
 final class FewchursApp
 {
+    private const LOCAL_IDS = ['localhost', '127.0.0.1', '[::1]'];
+
     private readonly FewchursClient $client;
 
     private readonly Cache $cache;
+
+    private readonly string $appId;
 
     private ?FeaturesResource $features = null;
 
@@ -33,10 +37,11 @@ final class FewchursApp
         DeviceIdResolver $identity,
     ) {
         $this->cache = new Cache($name);
+        $this->appId = trim((string) ($settings['app_id'] ?? ''));
         $this->client = new FewchursClient(
             apiKey: trim((string) ($settings['api_key'] ?? '')),
             baseUrl: (string) ($settings['base_url'] ?? 'https://www.fewchurs.com/api/v1'),
-            appId: trim((string) ($settings['app_id'] ?? '')),
+            appId: $this->appId,
             http: (array) ($settings['http'] ?? []),
             identity: $identity,
         );
@@ -65,6 +70,11 @@ final class FewchursApp
     public function client(): FewchursClient
     {
         return $this->client;
+    }
+
+    public function showsLocalNote(): bool
+    {
+        return config('app.debug') && in_array(strtolower($this->appId), self::LOCAL_IDS, true);
     }
 
     public function deviceId(): string

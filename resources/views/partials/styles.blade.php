@@ -128,6 +128,10 @@
 .fewchurs__failed-title { margin: 0; font-weight: 600; }
 .fewchurs__failed-text { margin: 0 0 0.75rem; color: var(--fc-subtle); font-size: 0.9rem; }
 .fewchurs__stale { font-size: 0.78rem; color: var(--fc-subtle); margin-bottom: 0.75rem; }
+.fewchurs__note {
+    margin: 0 0 1rem; padding: 0.6rem 0.8rem; border-radius: 0.55rem;
+    background: var(--fc-muted); color: var(--fc-subtle); font-size: 0.8rem;
+}
 .fewchurs--embed { display: flex; flex-direction: column; flex: 1; width: 100%; }
 .fewchurs--embed .fewchurs__branding {
     position: sticky; bottom: 0; margin: auto 0 0; padding: 1rem 0; background: var(--fc-bg);

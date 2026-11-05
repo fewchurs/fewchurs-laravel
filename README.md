@@ -23,6 +23,10 @@ Add your domain to your app in the Fewchurs dashboard. The API key only works th
 The package sends the host of `APP_URL` as the app ID. To send a different one, set
 `FEWCHURS_APP_ID`.
 
+`localhost` always works, so you can test with just the key. Until you change `APP_URL`, the board
+shows a small reminder while `APP_DEBUG=true`. Before going live, add your domain and set `APP_URL`
+to it. Visitors never see the reminder.
+
 ---
 
 ## What you get

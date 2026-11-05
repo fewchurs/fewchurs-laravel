@@ -58,6 +58,7 @@ final class Board extends Component
             'styles' => Theme::styles($this->theme),
             'routeName' => (string) config('fewchurs.route.name', 'fewchurs.'),
             'embed' => $this->embed,
+            'localNote' => $board->showsLocalNote(),
         ]);
     }
 

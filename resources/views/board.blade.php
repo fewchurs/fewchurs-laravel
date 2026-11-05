@@ -19,6 +19,10 @@
     @if($error !== null)
         @include('fewchurs::partials.load-error', ['retryUrl' => request()->fullUrl()])
     @else
+        @if($localNote)
+            @include('fewchurs::partials.local-note')
+        @endif
+
         @if(config('fewchurs.board.allow_submissions', true))
             @include('fewchurs::partials.submit-form')
         @endif

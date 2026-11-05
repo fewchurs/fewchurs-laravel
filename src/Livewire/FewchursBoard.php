@@ -160,6 +160,7 @@ class FewchursBoard extends Component
             'comments' => $error === null ? $this->comments($app) : null,
             'tabs' => $this->tabs(),
             'styles' => Theme::styles(),
+            'localNote' => $app->showsLocalNote(),
             'showCounts' => config('fewchurs.board.show_vote_counts', true) && ! $app->config()->hideVoteCounts,
         ]);
     }
