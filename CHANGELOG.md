@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.2 — 2026-11-05
+
+- A wrong key and a wrong app ID now show their own clear messages on the board and in `fewchurs:check`, with `APP_DEBUG` on or off.
+- In the sheet, "Powered by Fewchurs" always stays at the bottom, and the sheet uses almost no borders.
+
 ## 1.5.1 — 2026-11-05
 
 - With `APP_DEBUG=true` the board shows the real cause of a failure: a wrong key, a wrong app ID, no connection or a server error. With it off, visitors still see the plain message.

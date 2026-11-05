@@ -65,7 +65,7 @@
 html:has(.fewchurs-sheet__panel[open]) { overflow: hidden; }
 .fewchurs-sheet__head {
     display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    padding: 0.75rem 0.75rem 0.75rem 1.25rem; border-bottom: 1px solid var(--fcs-border);
+    padding: 0.75rem 0.75rem 0.75rem 1.25rem;
 }
 .fewchurs-sheet__title { margin: 0; font: 600 1rem/1.3 ui-sans-serif, system-ui, sans-serif; }
 .fewchurs-sheet__close {

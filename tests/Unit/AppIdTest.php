@@ -145,18 +145,17 @@ it('keeps other server messages out of the log', function () {
     expect(fn () => Fewchurs::features()->top())->toThrow(InvalidApiKeyException::class);
 });
 
-it('shows visitors the plain message, not the app id', function () {
+it('shows the server wrong_app message on the board and in json', function () {
     Http::fake(['*' => Http::response(wrongAppResponse(), 403)]);
 
     $this->get('/feedback')
         ->assertOk()
-        ->assertSee(trans('fewchurs::messages.errors.invalid_key'))
-        ->assertDontSee('shop.test');
+        ->assertSee('This API key is not set up for shop.test.');
 
     $this->postJson('/feedback/features/feat123/vote')
         ->assertForbidden()
         ->assertJsonPath('error.code', 'wrong_app')
-        ->assertJsonPath('error.message', trans('fewchurs::messages.errors.invalid_key'));
+        ->assertJsonPath('error.message', 'This API key is not set up for shop.test.');
 });
 
 it('tells the developer which id to add in fewchurs:check', function () {

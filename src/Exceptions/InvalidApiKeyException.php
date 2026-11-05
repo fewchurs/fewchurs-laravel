@@ -6,6 +6,13 @@ namespace Fewchurs\Laravel\Exceptions;
 
 final class InvalidApiKeyException extends FewchursException
 {
+    public function userMessage(): string
+    {
+        return $this->errorCode === 'wrong_app' && $this->getMessage() !== ''
+            ? $this->getMessage()
+            : parent::userMessage();
+    }
+
     public function isCritical(): bool
     {
         return true;

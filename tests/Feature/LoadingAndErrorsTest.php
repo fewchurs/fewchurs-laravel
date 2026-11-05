@@ -33,7 +33,7 @@ it('shows a failure inside the board instead of breaking the host page', functio
 
 it('explains a rejected key and an unreachable api in plain words', function () {
     failingBoard('invalid_key', 401);
-    $this->get('/feedback')->assertOk()->assertSee('Feedback is temporarily unavailable.');
+    $this->get('/feedback')->assertOk()->assertSee('Invalid API key. Check the key in your Fewchurs dashboard.');
 
     Http::fake(fn () => throw new ConnectionException('timed out'));
     $this->get('/feedback')->assertOk()->assertSee("Couldn't reach the feedback service.");
@@ -92,8 +92,6 @@ it('shows developers the real cause while debug is on', function (string $code, 
     $this->get('/feedback')->assertOk()->assertSee($shown);
     $this->getJson('/feedback/features')->assertStatus($status)->assertJsonPath('error.message', $shown);
 })->with([
-    'wrong key' => ['invalid_key', 401, 'Invalid or inactive API key.', 'Invalid or inactive API key. [invalid_key, HTTP 401]'],
-    'wrong app' => ['wrong_app', 403, 'This API key is not set up for other.com.', 'This API key is not set up for other.com. [wrong_app, HTTP 403]'],
     'server error' => ['internal', 500, 'boom', 'boom [internal, HTTP 500]'],
     'unknown code' => ['something_new', 418, 'A new error.', 'A new error. [something_new, HTTP 418]'],
 ]);
@@ -120,8 +118,6 @@ it('keeps the real cause away from visitors while debug is off', function (strin
     $this->get('/feedback')->assertOk()->assertSee($shown)->assertDontSee('other.com')->assertDontSee('raw text');
     $this->getJson('/feedback/features')->assertJsonPath('error.message', $shown);
 })->with([
-    'wrong key' => ['invalid_key', 401, 'Feedback is temporarily unavailable.'],
-    'wrong app' => ['wrong_app', 403, 'Feedback is temporarily unavailable.'],
     'server error' => ['internal', 500, 'Something went wrong. Try again.'],
     'unknown code' => ['something_new', 418, 'Something went wrong. Try again.'],
 ]);
@@ -135,7 +131,7 @@ it('keeps precise messages for visitors even while debug is on', function () {
 
 it('never shows the key while debug is on', function () {
     config()->set('app.debug', true);
-    refusedBoard('invalid_key', 401, 'key '.TestCase::API_KEY.' is bad');
+    refusedBoard('wrong_app', 403, 'key '.TestCase::API_KEY.' is bad');
 
     $this->get('/feedback')->assertOk()->assertSee('is bad')->assertDontSee(TestCase::API_KEY);
 });
@@ -147,5 +143,44 @@ it('shows the real cause inside the sheet frame while debug is on', function () 
     $this->get('/feedback?embed=1')
         ->assertOk()
         ->assertSee('data-fewchurs-board', false)
-        ->assertSee('This API key is not set up for other.com. [wrong_app, HTTP 403]');
+        ->assertSee('This API key is not set up for other.com.')
+        ->assertDontSee('[wrong_app');
+});
+
+it('shows the same invalid key message with debug on or off', function (bool $debug) {
+    config()->set('app.debug', $debug);
+    refusedBoard('invalid_key', 401, 'raw key text');
+
+    $this->get('/feedback')
+        ->assertOk()
+        ->assertSee('Invalid API key. Check the key in your Fewchurs dashboard.')
+        ->assertDontSee('raw key text')
+        ->assertDontSee('[invalid_key');
+})->with([[true], [false]]);
+
+it('shows the same wrong app message with debug on or off', function (bool $debug) {
+    config()->set('app.debug', $debug);
+    refusedBoard('wrong_app', 403, 'This API key is not set up for com.other.app. Add it to your app in the Fewchurs dashboard.');
+
+    $this->get('/feedback')
+        ->assertOk()
+        ->assertSee('This API key is not set up for com.other.app. Add it to your app in the Fewchurs dashboard.')
+        ->assertDontSee('[wrong_app');
+})->with([[true], [false]]);
+
+it('falls back to the invalid key message when wrong_app has no text', function () {
+    refusedBoard('wrong_app', 403, '');
+
+    $this->get('/feedback')->assertOk()->assertSee('Invalid API key. Check the key in your Fewchurs dashboard.');
+});
+
+it('marks only the sheet frame for the borderless layout', function () {
+    fakeBoard();
+
+    $this->get('/feedback?embed=1')->assertOk()->assertSee('fewchurs fewchurs--embed', false);
+    $this->get('/feedback')->assertOk()->assertDontSee('class="fewchurs fewchurs--embed', false);
+});
+
+it('drops the line under the sheet title', function () {
+    expect(Blade::render('<x-fewchurs::sheet />'))->not->toContain('border-bottom');
 });

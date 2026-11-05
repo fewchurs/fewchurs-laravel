@@ -30,7 +30,7 @@ it('fails when the api key is rejected', function () {
     Http::fake(['*' => Http::response(['error' => ['code' => 'invalid_key', 'message' => 'nope']], 401)]);
 
     $this->artisan('fewchurs:check')
-        ->expectsOutputToContain('API key rejected')
+        ->expectsOutputToContain('Invalid API key. Check the key in your Fewchurs dashboard.')
         ->doesntExpectOutputToContain('Board reachable')
         ->assertFailed();
 });

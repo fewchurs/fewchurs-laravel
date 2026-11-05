@@ -9,7 +9,7 @@
 
 @include('fewchurs::partials.styles')
 
-<div class="fewchurs" @if($theme) data-theme="{{ $theme }}" @endif style="{{ $styles }}" id="fewchurs-board" data-fewchurs-board>
+<div class="{{ $embed ? 'fewchurs fewchurs--embed' : 'fewchurs' }}" @if($theme) data-theme="{{ $theme }}" @endif style="{{ $styles }}" id="fewchurs-board" data-fewchurs-board>
     @isset($header)
         {{ $header }}
     @endisset

@@ -128,5 +128,17 @@
 .fewchurs__failed-title { margin: 0; font-weight: 600; }
 .fewchurs__failed-text { margin: 0 0 0.75rem; color: var(--fc-subtle); font-size: 0.9rem; }
 .fewchurs__stale { font-size: 0.78rem; color: var(--fc-subtle); margin-bottom: 0.75rem; }
+.fewchurs--embed { display: flex; flex-direction: column; flex: 1; width: 100%; }
+.fewchurs--embed .fewchurs__branding {
+    position: sticky; bottom: 0; margin: auto 0 0; padding: 1rem 0; background: var(--fc-bg);
+}
+.fewchurs--embed .fewchurs__input, .fewchurs--embed .fewchurs__textarea { background: var(--fc-muted); border: 0; }
+.fewchurs--embed .fewchurs__textarea:focus-visible {
+    outline: 2px solid var(--fc-primary); outline-offset: 2px;
+}
+.fewchurs--embed .fewchurs__btn { border: 0; }
+.fewchurs--embed .fewchurs__btn--ghost { background: var(--fc-muted); }
+.fewchurs--embed .fewchurs__failed { border: 0; }
+.fewchurs--embed .fewchurs__comments { border-top: 0; }
 </style>
 @endonce

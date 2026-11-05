@@ -69,7 +69,7 @@ return [
 
     'errors' => [
         'generic' => 'Something went wrong. Try again.',
-        'invalid_key' => 'Feedback is temporarily unavailable.',
+        'invalid_key' => 'Invalid API key. Check the key in your Fewchurs dashboard.',
         'validation_failed' => 'Please check this field and try again.',
         'rate_limited' => "You've reached today's limit. Try again tomorrow.",
         'not_found' => 'This request no longer exists.',

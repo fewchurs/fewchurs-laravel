@@ -79,18 +79,18 @@ shimmer shaped like the board, and if the page inside fails it shows a message w
 ## Loading and errors
 
 When the API can't be reached (or rejects the key) and there is no recent copy to show, the
-board shows a plain message with a "Try again" button **inside the board**, and the rest of your
-page keeps working. The messages come from the `errors` group in the lang file, so you can
-reword or translate them; the failure itself is still logged.
+board shows a message with a "Try again" button **inside the board**, and the rest of your
+page keeps working. The failure itself is still logged.
 
-With `APP_DEBUG=true` the board shows the real cause instead, so you can fix it from the page:
+| Failure | `APP_DEBUG=false` | `APP_DEBUG=true` |
+|---|---|---|
+| Wrong key | `Invalid API key. Check the key in your Fewchurs dashboard.` | The same |
+| Wrong app ID | `This API key is not set up for other.com. Add it to your app in the Fewchurs dashboard.` | The same |
+| No connection | `Couldn't reach the feedback service.` | `Could not reach the Fewchurs API. Check this server's internet connection and FEWCHURS_BASE_URL. [connection]` |
+| Anything else | `Something went wrong. Try again.` | The server's message, its code and the HTTP status |
 
-| Failure | Shown with `APP_DEBUG=true` |
-|---|---|
-| Wrong key | `Invalid or inactive API key. [invalid_key, HTTP 401]` |
-| Wrong app ID | `This API key is not set up for other.com. Add it to your app in the Fewchurs dashboard. [wrong_app, HTTP 403]` |
-| No connection | `Could not reach the Fewchurs API. Check this server's internet connection and FEWCHURS_BASE_URL. [connection]` |
-| Anything else | The server's message, its code and the HTTP status |
+Except for the wrong app ID, which comes from the server and names the ID, the `APP_DEBUG=false`
+messages come from the `errors` group in the lang file, so you can reword or translate them.
 
 Keep `APP_DEBUG` off in production, as Laravel already asks.
 

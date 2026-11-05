@@ -10,7 +10,7 @@ use Throwable;
 
 class FewchursException extends RuntimeException
 {
-    private const VAGUE_MESSAGES = ['generic', 'invalid_key', 'connection', 'server'];
+    private const VAGUE_MESSAGES = ['generic', 'connection', 'server'];
 
     public function __construct(
         string $message,
