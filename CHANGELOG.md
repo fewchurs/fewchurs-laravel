@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.0 — 2026-11-05
+
+- The sheet now opens on the list of requests. A floating "New request" button switches it to the form, and "Back" returns to the list. Without JavaScript the button works as a normal link.
+- The localhost note links to the Fewchurs dashboard and has simpler wording.
+
 ## 1.5.3 — 2026-11-05
 
 - While you test on localhost with `APP_DEBUG=true`, the board and the sheet show a small note reminding you to add your domain in the Fewchurs dashboard before going live. Visitors never see it.

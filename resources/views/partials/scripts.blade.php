@@ -66,6 +66,21 @@
             });
     }
 
+    document.addEventListener('click', function (event) {
+        var toggle = event.target.closest('[data-fewchurs-view]');
+        if (!toggle) return;
+
+        event.preventDefault();
+
+        var board = toggle.closest('[data-fewchurs-board]');
+        var view = toggle.getAttribute('data-fewchurs-view');
+        board.setAttribute('data-view', view);
+        window.scrollTo(0, 0);
+
+        var next = board.querySelector(view === 'compose' ? '#fewchurs-title' : '.fewchurs__fab');
+        if (next) next.focus();
+    });
+
     document.addEventListener('submit', function (event) {
         var form = event.target.closest('form[data-fewchurs-vote]');
         if (!form) return;

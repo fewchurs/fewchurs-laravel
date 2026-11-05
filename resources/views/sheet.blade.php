@@ -22,7 +22,7 @@
         </div>
         <div class="fewchurs-sheet__body" data-state="loading">
             <div class="fewchurs-sheet__loading">
-                @include('fewchurs::partials.skeleton')
+                @include('fewchurs::partials.skeleton', ['form' => false])
             </div>
 
             <div class="fewchurs-sheet__failed" role="alert">

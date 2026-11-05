@@ -71,6 +71,9 @@ Use your own button instead of the floating one: hide it with `:trigger="false"`
 <button data-fewchurs-open>Feedback</button>
 ```
 
+The sheet opens on the list of requests. A floating "New request" button switches it to the form,
+and "Back" returns to the list. If submissions are off, the button doesn't show.
+
 The sheet loads the board from `/feedback?embed=1` in a frame, and only the first time it opens,
 so pages where nobody opens it make no API calls. It needs the `/feedback` route (so
 `route.prefix` must not be `null`), takes `app` and `tab` like the board, and uses the colours

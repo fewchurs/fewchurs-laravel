@@ -6,7 +6,7 @@ use Fewchurs\Laravel\Livewire\FewchursBoard;
 use Illuminate\Support\Facades\Http;
 use Livewire\Livewire;
 
-const LOCAL_NOTE = 'Before you go live, add your domain in the Fewchurs dashboard under Web';
+const LOCAL_NOTE = 'Before you go live add your domain in the';
 
 it('shows the note on the board and in the sheet frame for a local id', function (string $id) {
     config()->set('app.debug', true);
@@ -57,4 +57,26 @@ it('uses the id of the board being shown', function () {
     fakeBoard();
 
     $this->get('/feedback?board=docs')->assertOk()->assertDontSee(LOCAL_NOTE);
+});
+
+it('links to the dashboard and uses no commas', function () {
+    config()->set('app.debug', true);
+    config()->set('fewchurs.app_id', 'localhost');
+    fakeBoard();
+
+    $html = $this->get('/feedback?embed=1')->assertOk()->getContent();
+
+    expect($html)->toContain('href="https://www.fewchurs.com/dashboard"')
+        ->toContain('>Fewchurs dashboard</a> under Web')
+        ->and(trans('fewchurs::messages.local_note'))->not->toContain(',');
+});
+
+it('still shows the link when a translation drops the placeholder', function () {
+    config()->set('app.debug', true);
+    config()->set('fewchurs.app_id', 'localhost');
+    trans('fewchurs::messages.back');
+    app('translator')->addLines(['messages.local_note' => 'Add your domain.'], 'en', 'fewchurs');
+    fakeBoard();
+
+    $this->get('/feedback')->assertOk()->assertSee('Add your domain.')->assertSee('Fewchurs dashboard');
 });

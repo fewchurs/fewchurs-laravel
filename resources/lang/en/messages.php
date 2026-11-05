@@ -23,7 +23,10 @@ return [
     'follow_label' => 'Email me when this changes',
     'unfollow' => 'Stop updates',
     'branding' => 'Powered by Fewchurs',
-    'local_note' => "You're testing on localhost. Before you go live, add your domain in the Fewchurs dashboard under Web, or the board may not load. Visitors won't see this note.",
+    'local_note' => "You're testing on localhost. Before you go live add your domain in the :dashboard under Web or the board may not load. Visitors won't see this note.",
+    'local_note_link' => 'Fewchurs dashboard',
+    'new_request' => 'New request',
+    'back' => 'Back',
     'honeypot' => 'Leave this field empty',
 
     'submitted' => 'Thanks — your request was submitted.',
