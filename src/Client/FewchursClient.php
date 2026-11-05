@@ -114,7 +114,7 @@ final class FewchursClient
             };
         } catch (ConnectionException $e) {
             throw $this->report(new FewchursConnectionException(
-                'Could not reach the Fewchurs API.', 'connection', 0, $path, $e,
+                'Could not reach the Fewchurs API. Check this server\'s internet connection and FEWCHURS_BASE_URL.', 'connection', 0, $path, $e,
             ));
         }
 

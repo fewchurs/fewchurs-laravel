@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.1 — 2026-11-05
+
+- With `APP_DEBUG=true` the board shows the real cause of a failure: a wrong key, a wrong app ID, no connection or a server error. With it off, visitors still see the plain message.
+
 ## 1.5.0 — 2026-11-04
 
 - Sends the app ID so your API key only works in your own apps. Handles `wrong_app`.

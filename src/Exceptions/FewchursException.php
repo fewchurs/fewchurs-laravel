@@ -10,6 +10,8 @@ use Throwable;
 
 class FewchursException extends RuntimeException
 {
+    private const VAGUE_MESSAGES = ['generic', 'invalid_key', 'connection', 'server'];
+
     public function __construct(
         string $message,
         public readonly string $errorCode = 'internal',
@@ -36,10 +38,23 @@ class FewchursException extends RuntimeException
         return new $class($message, $code, $status, $endpoint);
     }
 
-    /** Message safe to show a visitor; never the raw server text. */
+    /** Message safe to show a visitor; the real cause only while APP_DEBUG is on. */
     public function userMessage(): string
     {
+        if (config('app.debug') && in_array($this->translationKey(), self::VAGUE_MESSAGES, true)) {
+            return $this->developerMessage();
+        }
+
         return trans('fewchurs::messages.errors.'.$this->translationKey());
+    }
+
+    private function developerMessage(): string
+    {
+        $message = $this->getMessage() ?: 'The Fewchurs API returned an error.';
+
+        return $this->status > 0
+            ? "{$message} [{$this->errorCode}, HTTP {$this->status}]"
+            : "{$message} [{$this->errorCode}]";
     }
 
     public function isCritical(): bool

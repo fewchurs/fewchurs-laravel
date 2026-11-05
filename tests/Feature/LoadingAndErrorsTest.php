@@ -79,3 +79,73 @@ it('shows a shimmer while the livewire board switches tabs and when lazy', funct
 
     expect(view('fewchurs::livewire.placeholder')->render())->toContain('fewchurs-skeleton');
 });
+
+function refusedBoard(string $code, int $status, string $message): void
+{
+    Http::fake(['*' => Http::response(['error' => ['code' => $code, 'message' => $message]], $status)]);
+}
+
+it('shows developers the real cause while debug is on', function (string $code, int $status, string $message, string $shown) {
+    config()->set('app.debug', true);
+    refusedBoard($code, $status, $message);
+
+    $this->get('/feedback')->assertOk()->assertSee($shown);
+    $this->getJson('/feedback/features')->assertStatus($status)->assertJsonPath('error.message', $shown);
+})->with([
+    'wrong key' => ['invalid_key', 401, 'Invalid or inactive API key.', 'Invalid or inactive API key. [invalid_key, HTTP 401]'],
+    'wrong app' => ['wrong_app', 403, 'This API key is not set up for other.com.', 'This API key is not set up for other.com. [wrong_app, HTTP 403]'],
+    'server error' => ['internal', 500, 'boom', 'boom [internal, HTTP 500]'],
+    'unknown code' => ['something_new', 418, 'A new error.', 'A new error. [something_new, HTTP 418]'],
+]);
+
+it('shows developers a lost connection while debug is on', function () {
+    config()->set('app.debug', true);
+    config()->set('fewchurs.http.retries', 0);
+    Http::fake(fn () => throw new ConnectionException('timed out'));
+
+    $this->get('/feedback')->assertOk()->assertSee('Could not reach the Fewchurs API.')->assertSee('[connection]');
+});
+
+it('shows developers a response that is not json while debug is on', function () {
+    config()->set('app.debug', true);
+    Http::fake(['*' => Http::response('<h1>Bad gateway</h1>', 502)]);
+
+    $this->get('/feedback')->assertOk()->assertSee('Unexpected response from the Fewchurs API. [internal, HTTP 502]');
+});
+
+it('keeps the real cause away from visitors while debug is off', function (string $code, int $status, string $shown) {
+    config()->set('app.debug', false);
+    refusedBoard($code, $status, 'raw text about other.com');
+
+    $this->get('/feedback')->assertOk()->assertSee($shown)->assertDontSee('other.com')->assertDontSee('raw text');
+    $this->getJson('/feedback/features')->assertJsonPath('error.message', $shown);
+})->with([
+    'wrong key' => ['invalid_key', 401, 'Feedback is temporarily unavailable.'],
+    'wrong app' => ['wrong_app', 403, 'Feedback is temporarily unavailable.'],
+    'server error' => ['internal', 500, 'Something went wrong. Try again.'],
+    'unknown code' => ['something_new', 418, 'Something went wrong. Try again.'],
+]);
+
+it('keeps precise messages for visitors even while debug is on', function () {
+    config()->set('app.debug', true);
+    refusedBoard('rate_limited', 429, 'raw limit text');
+
+    $this->get('/feedback')->assertOk()->assertSee("You've reached today's limit. Try again tomorrow.")->assertDontSee('raw limit text');
+});
+
+it('never shows the key while debug is on', function () {
+    config()->set('app.debug', true);
+    refusedBoard('invalid_key', 401, 'key '.TestCase::API_KEY.' is bad');
+
+    $this->get('/feedback')->assertOk()->assertSee('is bad')->assertDontSee(TestCase::API_KEY);
+});
+
+it('shows the real cause inside the sheet frame while debug is on', function () {
+    config()->set('app.debug', true);
+    refusedBoard('wrong_app', 403, 'This API key is not set up for other.com.');
+
+    $this->get('/feedback?embed=1')
+        ->assertOk()
+        ->assertSee('data-fewchurs-board', false)
+        ->assertSee('This API key is not set up for other.com. [wrong_app, HTTP 403]');
+});

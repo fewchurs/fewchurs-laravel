@@ -83,6 +83,17 @@ board shows a plain message with a "Try again" button **inside the board**, and 
 page keeps working. The messages come from the `errors` group in the lang file, so you can
 reword or translate them; the failure itself is still logged.
 
+With `APP_DEBUG=true` the board shows the real cause instead, so you can fix it from the page:
+
+| Failure | Shown with `APP_DEBUG=true` |
+|---|---|
+| Wrong key | `Invalid or inactive API key. [invalid_key, HTTP 401]` |
+| Wrong app ID | `This API key is not set up for other.com. Add it to your app in the Fewchurs dashboard. [wrong_app, HTTP 403]` |
+| No connection | `Could not reach the Fewchurs API. Check this server's internet connection and FEWCHURS_BASE_URL. [connection]` |
+| Anything else | The server's message, its code and the HTTP status |
+
+Keep `APP_DEBUG` off in production, as Laravel already asks.
+
 The plain board arrives with your page, already loaded, so it has no loading state. For a
 shimmer, use the sheet, or Livewire with `lazy`, which also shimmers while switching tabs:
 
@@ -116,7 +127,7 @@ Fewchurs::config()->showBranding;
 
 Every call throws a typed exception on failure — `RateLimitedException`, `NotFoundException`,
 `InvalidApiKeyException`, `ConnectionException` and friends, each with a
-`userMessage()` that is safe to show a visitor.
+`userMessage()` that is safe to show a visitor while `APP_DEBUG` is off.
 
 A key used from an app ID it is not set up for gets a `wrong_app` error from the server. This
 throws `InvalidApiKeyException`, is never retried, and `getMessage()` names the ID to add.
